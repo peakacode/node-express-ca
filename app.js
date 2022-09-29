@@ -2,14 +2,16 @@ const http = require('http')
 const { readFileSync } = require('fs')
 
 // get all files
-const homePage = readFileSync('./index.html')
-const aboutPage = readFileSync('./about.html')
-const pageNotFound = readFileSync('./404.html')
+const homePage = readFileSync('./navbar-app/index.html')
+const homeStyles = readFileSync('./navbar-app/styles.css')
+const homeImage = readFileSync('./navbar-app/logo.svg')
+const homeLogic = readFileSync('./navbar-app/browser-app.js')
 
 const server = http.createServer((req, res) => {
   // console.log(req.method) // GET
   // console.log(req.url) // i.e. /Contact
   const url = req.url;
+  console.log(url)
   // home page
   if (url === '/') {
     res.writeHead(200, {'content-type': 'text/html'})
@@ -18,12 +20,27 @@ const server = http.createServer((req, res) => {
   // about page
   } else if (req.url === '/about') {
     res.writeHead(200, {'content-type': 'text/html'})
-    res.write(aboutPage)
+    res.write('About Page')
+    res.end()
+  // style
+  } else if (req.url === '/styles.css') {
+    res.writeHead(200, {'content-type': 'text/css'})
+    res.write(homeStyles)
+    res.end()
+    // home image
+  } else if (req.url === '/logo.svg') {
+    res.writeHead(200, {'content-type': 'image/svg+xml'})
+    res.write(homeImage)
+    res.end()
+    // home login
+  } else if (req.url === '/browser-app.js') {
+    res.writeHead(200, {'content-type': 'text/javascript'})
+    res.write(homeLogic)
     res.end()
   // 404 page 
   } else {
     res.writeHead(404, {'content-type': 'text/html'})
-    res.write(pageNotFound)
+    res.write('Page Not Found')
     res.end()
   }
 })
